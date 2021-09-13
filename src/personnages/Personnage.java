@@ -1,16 +1,19 @@
 package personnages;
 
+import java.awt.*;
+import javax.swing.ImageIcon;
 
+import jeu.MarioMain;
 
 public class Personnage {
-    
+
     private int largeur, hauteur;
     private int x, y;
     private boolean marche;
     private boolean versDroite;
     public int compteur;
 
-    public Personnage(int x, int y ,int largeur,int hauteur) {
+    public Personnage(int x, int y, int largeur, int hauteur) {
         this.x = x;
         this.y = y;
         this.largeur = largeur;
@@ -21,9 +24,42 @@ public class Personnage {
 
     }
 
-    
+    public Image marche(String nom, int frequence) {
 
-    
+        String str;
+        ImageIcon ico;
+        Image img;
+
+        if (this.marche == false || MarioMain.scene.getXPos() <= 0) {
+            if (this.versDroite == true) {
+                str = "/images/" + nom + "ArretDroite.png";
+            } else {
+                str = "/images/" + nom + "ArretGauche.png";
+            }
+        } else{
+            this.compteur++;
+            if(this.compteur / frequence == 0) {
+                if(this.versDroite == true) {
+                    str = "/images/" + nom + "ArretDroite.png";
+                }else {
+                    str = "/images/" + nom + "ArretGauche.png";
+                }
+            }else{
+                if(this.versDroite == true) {
+                    str = "/images/" + nom + "MarcheDroite.png";
+                }else {
+                    str = "/images/" + nom + "MarcheGauche.png";
+                }
+                
+            }
+            if(this.compteur == 2 * frequence) {
+                    this.compteur = 0;
+                }
+        }
+        ico = new ImageIcon(getClass().getResource(str));
+        img = ico.getImage();
+        return img;
+    }
 
     /**
      * @return int return the largeur
@@ -32,14 +68,12 @@ public class Personnage {
         return largeur;
     }
 
-
     /**
      * @return int return the hauteur
      */
     public int getHauteur() {
         return hauteur;
     }
-
 
     /**
      * @return int return the x

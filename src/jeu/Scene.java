@@ -79,7 +79,7 @@ public class Scene extends JPanel {
 
         g2.drawImage(this.imgFond1, this.xFonds1, 0, null);
         g2.drawImage(this.imgFond2, this.xFonds2, 0, null);
-        g2.drawImage(this.mario.getImgMario(), 300, 245, null);
+        g2.drawImage(this.mario.marche("mario", 25), 300, 245, null);
 
         g2.drawImage(imgChateau1, 10 - this.xPos, 95, null);
         g2.drawImage(imgDepart, 220 - this.xPos, 234, null);
