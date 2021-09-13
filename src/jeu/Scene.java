@@ -4,28 +4,42 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import java.awt.*;
 
-
 public class Scene extends JPanel {
-    
+
     private ImageIcon icoFond;
     private Image imgFond1;
-    
+    private Image imgFond2;
+
+    private ImageIcon icoChateau1;
+    private Image imgChateau1;
+    private ImageIcon icoDepart;
+    private Image imgDepart;
+
     private ImageIcon icoMario;
     private Image imgMario;
 
     private int xFonds1;
+    private int xFonds2;
     private int dx;
-
+    private int xPos;
 
     public Scene() {
 
         super();
         this.xFonds1 = -50;
+        this.xFonds2 = 750;
         this.dx = 0;
+        this.xPos = -1;
         icoFond = new ImageIcon(getClass().getResource("/images/fondEcran.png"));
         this.imgFond1 = this.icoFond.getImage();
+        this.imgFond2 = this.icoFond.getImage();
         icoMario = new ImageIcon(getClass().getResource("/images/marioMarcheDroite.png"));
         this.imgMario = this.icoMario.getImage();
+
+        this.icoChateau1 = new ImageIcon(getClass().getResource("/images/chateau1.png"));
+        this.imgChateau1 = this.icoChateau1.getImage();
+        this.icoDepart = new ImageIcon(getClass().getResource("/images/depart.png"));
+        this.imgDepart = this.icoDepart.getImage();
 
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -35,21 +49,39 @@ public class Scene extends JPanel {
         chronoEcran.start();
     }
 
-    public void depalcementFond() {
-        this.xFonds1 = this.xFonds1 - this.dx;
+    public void deplacementFond() {
+
+        if (this.xPos >= 0) {
+            this.xPos = this.xPos + this.dx;
+            this.xFonds1 = this.xFonds1 - this.dx;
+            this.xFonds2 = this.xFonds2 - this.dx;
+        }
+
+        if (this.xFonds1 == -800) {
+            this.xFonds1 = 800;
+        } else if (this.xFonds2 == -800) {
+            this.xFonds2 = 800;
+        } else if (this.xFonds1 == 800) {
+            this.xFonds2 = -800;
+        } else if (this.xFonds2 == 800) {
+            this.xFonds2 = -800;
+        }
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics g2 = (Graphics2D)g;
+        Graphics g2 = (Graphics2D) g;
 
-        this.depalcementFond();
+        this.deplacementFond();
 
         g2.drawImage(this.imgFond1, this.xFonds1, 0, null);
+        g2.drawImage(this.imgFond2, this.xFonds2, 0, null);
         g2.drawImage(imgMario, 300, 245, null);
+
+        g2.drawImage(imgChateau1, 10 - this.xPos, 95, null);
+        g2.drawImage(imgDepart, 220 - this.xPos, 234, null);
+
     }
-
-
 
     /**
      * @return ImageIcon return the icoFond
@@ -77,6 +109,76 @@ public class Scene extends JPanel {
      */
     public void setImgFond1(Image imgFond1) {
         this.imgFond1 = imgFond1;
+    }
+
+    /**
+     * @return Image return the imgFond2
+     */
+    public Image getImgFond2() {
+        return imgFond2;
+    }
+
+    /**
+     * @param imgFond2 the imgFond2 to set
+     */
+    public void setImgFond2(Image imgFond2) {
+        this.imgFond2 = imgFond2;
+    }
+
+    /**
+     * @return ImageIcon return the icoChateau1
+     */
+    public ImageIcon getIcoChateau1() {
+        return icoChateau1;
+    }
+
+    /**
+     * @param icoChateau1 the icoChateau1 to set
+     */
+    public void setIcoChateau1(ImageIcon icoChateau1) {
+        this.icoChateau1 = icoChateau1;
+    }
+
+    /**
+     * @return Image return the imgChateau1
+     */
+    public Image getImgChateau1() {
+        return imgChateau1;
+    }
+
+    /**
+     * @param imgChateau1 the imgChateau1 to set
+     */
+    public void setImgChateau1(Image imgChateau1) {
+        this.imgChateau1 = imgChateau1;
+    }
+
+    /**
+     * @return ImageIcon return the icoDepart
+     */
+    public ImageIcon getIcoDepart() {
+        return icoDepart;
+    }
+
+    /**
+     * @param icoDepart the icoDepart to set
+     */
+    public void setIcoDepart(ImageIcon icoDepart) {
+        this.icoDepart = icoDepart;
+    }
+
+    /**
+     * @return Image return the imgDepart
+     */
+    public Image getImgDepart() {
+        return imgDepart;
+    }
+
+    /**
+     * @param imgDepart the imgDepart to set
+     */
+    public void setImgDepart(Image imgDepart) {
+        this.imgDepart = imgDepart;
     }
 
     /**
@@ -122,6 +224,20 @@ public class Scene extends JPanel {
     }
 
     /**
+     * @return int return the xFonds2
+     */
+    public int getXFonds2() {
+        return xFonds2;
+    }
+
+    /**
+     * @param xFonds2 the xFonds2 to set
+     */
+    public void setXFonds2(int xFonds2) {
+        this.xFonds2 = xFonds2;
+    }
+
+    /**
      * @return int return the dx
      */
     public int getDx() {
@@ -133,6 +249,20 @@ public class Scene extends JPanel {
      */
     public void setDx(int dx) {
         this.dx = dx;
+    }
+
+    /**
+     * @return int return the xPos
+     */
+    public int getXPos() {
+        return xPos;
+    }
+
+    /**
+     * @param xPos the xPos to set
+     */
+    public void setXPos(int xPos) {
+        this.xPos = xPos;
     }
 
 }
