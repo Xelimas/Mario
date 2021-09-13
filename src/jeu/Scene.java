@@ -2,6 +2,9 @@ package jeu;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import personnages.Mario;
+
 import java.awt.*;
 
 public class Scene extends JPanel {
@@ -15,13 +18,12 @@ public class Scene extends JPanel {
     private ImageIcon icoDepart;
     private Image imgDepart;
 
-    private ImageIcon icoMario;
-    private Image imgMario;
-
     private int xFonds1;
     private int xFonds2;
     private int dx;
     private int xPos;
+
+    public Mario mario;
 
     public Scene() {
 
@@ -33,13 +35,14 @@ public class Scene extends JPanel {
         icoFond = new ImageIcon(getClass().getResource("/images/fondEcran.png"));
         this.imgFond1 = this.icoFond.getImage();
         this.imgFond2 = this.icoFond.getImage();
-        icoMario = new ImageIcon(getClass().getResource("/images/marioMarcheDroite.png"));
-        this.imgMario = this.icoMario.getImage();
+       
 
         this.icoChateau1 = new ImageIcon(getClass().getResource("/images/chateau1.png"));
         this.imgChateau1 = this.icoChateau1.getImage();
         this.icoDepart = new ImageIcon(getClass().getResource("/images/depart.png"));
         this.imgDepart = this.icoDepart.getImage();
+
+        mario = new Mario(300, 245);
 
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -62,7 +65,7 @@ public class Scene extends JPanel {
         } else if (this.xFonds2 == -800) {
             this.xFonds2 = 800;
         } else if (this.xFonds1 == 800) {
-            this.xFonds2 = -800;
+            this.xFonds1 = -800;
         } else if (this.xFonds2 == 800) {
             this.xFonds2 = -800;
         }
@@ -76,7 +79,7 @@ public class Scene extends JPanel {
 
         g2.drawImage(this.imgFond1, this.xFonds1, 0, null);
         g2.drawImage(this.imgFond2, this.xFonds2, 0, null);
-        g2.drawImage(imgMario, 300, 245, null);
+        g2.drawImage(this.mario.getImgMario(), 300, 245, null);
 
         g2.drawImage(imgChateau1, 10 - this.xPos, 95, null);
         g2.drawImage(imgDepart, 220 - this.xPos, 234, null);
@@ -181,33 +184,6 @@ public class Scene extends JPanel {
         this.imgDepart = imgDepart;
     }
 
-    /**
-     * @return ImageIcon return the icoMario
-     */
-    public ImageIcon getIcoMario() {
-        return icoMario;
-    }
-
-    /**
-     * @param icoMario the icoMario to set
-     */
-    public void setIcoMario(ImageIcon icoMario) {
-        this.icoMario = icoMario;
-    }
-
-    /**
-     * @return Image return the imgMario
-     */
-    public Image getImgMario() {
-        return imgMario;
-    }
-
-    /**
-     * @param imgMario the imgMario to set
-     */
-    public void setImgMario(Image imgMario) {
-        this.imgMario = imgMario;
-    }
 
     /**
      * @return int return the xFonds1
