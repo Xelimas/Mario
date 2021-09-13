@@ -3,6 +3,8 @@ package objets;
 import java.awt.*;
 import javax.swing.ImageIcon;
 
+import jeu.MarioMain;
+
 public class Objet {
 
     private int largeur, hauteur;
@@ -15,6 +17,12 @@ public class Objet {
         this.largeur = largeur;
         this.hauteur = hauteur;
         
+    }
+
+    public void deplacement() {
+        if(MarioMain.scene.getXPos() >= 0) {
+            this.x = this.x - MarioMain.scene.getDx();
+        }
     }
 
 

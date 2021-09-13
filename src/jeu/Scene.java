@@ -39,7 +39,6 @@ public class Scene extends JPanel {
         icoFond = new ImageIcon(getClass().getResource("/images/fondEcran.png"));
         this.imgFond1 = this.icoFond.getImage();
         this.imgFond2 = this.icoFond.getImage();
-       
 
         this.icoChateau1 = new ImageIcon(getClass().getResource("/images/chateau1.png"));
         this.imgChateau1 = this.icoChateau1.getImage();
@@ -81,14 +80,20 @@ public class Scene extends JPanel {
         super.paintComponent(g);
         Graphics g2 = (Graphics2D) g;
 
+        if (this.mario.contactAvant(tuyauRouge1) == true) {
+            this.mario.setMarche(false);
+            this.dx = 0;
+        }
+
         this.deplacementFond();
+        this.tuyauRouge1.deplacement();
 
         g2.drawImage(this.imgFond1, this.xFonds1, 0, null);
         g2.drawImage(this.imgFond2, this.xFonds2, 0, null);
         g2.drawImage(this.mario.marche("mario", 25), 300, 245, null);
         g2.drawImage(imgChateau1, 10 - this.xPos, 95, null);
         g2.drawImage(imgDepart, 220 - this.xPos, 234, null);
-        g2.drawImage(this.tuyauRouge1.getImgTuyauRouge(), this.tuyauRouge1.getX() - this.xPos, this.tuyauRouge1.getY(), null);
+        g2.drawImage(this.tuyauRouge1.getImgTuyauRouge(), this.tuyauRouge1.getX(), this.tuyauRouge1.getY(), null);
         g2.drawImage(this.bloc1.getImgBloc(), this.bloc1.getX() - this.xPos, this.bloc1.getY(), null);
     }
 
@@ -189,7 +194,6 @@ public class Scene extends JPanel {
     public void setImgDepart(Image imgDepart) {
         this.imgDepart = imgDepart;
     }
-
 
     /**
      * @return int return the xFonds1

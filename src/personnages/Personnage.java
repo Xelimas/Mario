@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.ImageIcon;
 
 import jeu.MarioMain;
+import objets.Objet;
 
 public class Personnage {
 
@@ -36,29 +37,42 @@ public class Personnage {
             } else {
                 str = "/images/" + nom + "ArretGauche.png";
             }
-        } else{
+        } else {
             this.compteur++;
-            if(this.compteur / frequence == 0) {
-                if(this.versDroite == true) {
+            if (this.compteur / frequence == 0) {
+                if (this.versDroite == true) {
                     str = "/images/" + nom + "ArretDroite.png";
-                }else {
+                } else {
                     str = "/images/" + nom + "ArretGauche.png";
                 }
-            }else{
-                if(this.versDroite == true) {
+            } else {
+                if (this.versDroite == true) {
                     str = "/images/" + nom + "MarcheDroite.png";
-                }else {
+                } else {
                     str = "/images/" + nom + "MarcheGauche.png";
                 }
-                
+
             }
-            if(this.compteur == 2 * frequence) {
-                    this.compteur = 0;
-                }
+            if (this.compteur == 2 * frequence) {
+                this.compteur = 0;
+            }
         }
         ico = new ImageIcon(getClass().getResource(str));
         img = ico.getImage();
         return img;
+    }
+
+    public boolean contactAvant(Objet objet) {
+
+        if (this.isVersDroite() == true) {
+            if (this.x + this.largeur < objet.getX() || this.x + this.largeur > objet.getX() + 5
+                    || this.y + this.hauteur <= objet.getY() || this.y >= objet.getY() + objet.getHauteur()) {
+                return false;
+            } else {
+                return true;
+            }
+        }else { return false;}
+
     }
 
     /**
