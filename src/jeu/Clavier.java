@@ -21,6 +21,9 @@ public class Clavier implements KeyListener {
             MarioMain.scene.mario.setVersDroite(false);
             MarioMain.scene.setDx(-1);
         }
+        if(e.getKeyCode() == 90) { // touche Z (saut)
+            MarioMain.scene.mario.setSaut(true);
+        }
 
     }
 

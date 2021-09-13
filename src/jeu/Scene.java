@@ -24,6 +24,8 @@ public class Scene extends JPanel {
     private int xFonds2;
     private int dx;
     private int xPos;
+    private int ySol;
+    private int hauteurPlafond;
 
     public Mario mario;
     public TuyauRouge tuyauRouge1;
@@ -36,6 +38,8 @@ public class Scene extends JPanel {
         this.xFonds2 = 750;
         this.dx = 0;
         this.xPos = -1;
+        this.ySol = 293;
+        this.hauteurPlafond = 0;
         icoFond = new ImageIcon(getClass().getResource("/images/fondEcran.png"));
         this.imgFond1 = this.icoFond.getImage();
         this.imgFond2 = this.icoFond.getImage();
@@ -90,137 +94,15 @@ public class Scene extends JPanel {
 
         g2.drawImage(this.imgFond1, this.xFonds1, 0, null);
         g2.drawImage(this.imgFond2, this.xFonds2, 0, null);
-        g2.drawImage(this.mario.marche("mario", 25), 300, 245, null);
         g2.drawImage(imgChateau1, 10 - this.xPos, 95, null);
         g2.drawImage(imgDepart, 220 - this.xPos, 234, null);
         g2.drawImage(this.tuyauRouge1.getImgTuyauRouge(), this.tuyauRouge1.getX(), this.tuyauRouge1.getY(), null);
         g2.drawImage(this.bloc1.getImgBloc(), this.bloc1.getX() - this.xPos, this.bloc1.getY(), null);
-    }
-
-    /**
-     * @return ImageIcon return the icoFond
-     */
-    public ImageIcon getIcoFond() {
-        return icoFond;
-    }
-
-    /**
-     * @param icoFond the icoFond to set
-     */
-    public void setIcoFond(ImageIcon icoFond) {
-        this.icoFond = icoFond;
-    }
-
-    /**
-     * @return Image return the imgFond1
-     */
-    public Image getImgFond1() {
-        return imgFond1;
-    }
-
-    /**
-     * @param imgFond1 the imgFond1 to set
-     */
-    public void setImgFond1(Image imgFond1) {
-        this.imgFond1 = imgFond1;
-    }
-
-    /**
-     * @return Image return the imgFond2
-     */
-    public Image getImgFond2() {
-        return imgFond2;
-    }
-
-    /**
-     * @param imgFond2 the imgFond2 to set
-     */
-    public void setImgFond2(Image imgFond2) {
-        this.imgFond2 = imgFond2;
-    }
-
-    /**
-     * @return ImageIcon return the icoChateau1
-     */
-    public ImageIcon getIcoChateau1() {
-        return icoChateau1;
-    }
-
-    /**
-     * @param icoChateau1 the icoChateau1 to set
-     */
-    public void setIcoChateau1(ImageIcon icoChateau1) {
-        this.icoChateau1 = icoChateau1;
-    }
-
-    /**
-     * @return Image return the imgChateau1
-     */
-    public Image getImgChateau1() {
-        return imgChateau1;
-    }
-
-    /**
-     * @param imgChateau1 the imgChateau1 to set
-     */
-    public void setImgChateau1(Image imgChateau1) {
-        this.imgChateau1 = imgChateau1;
-    }
-
-    /**
-     * @return ImageIcon return the icoDepart
-     */
-    public ImageIcon getIcoDepart() {
-        return icoDepart;
-    }
-
-    /**
-     * @param icoDepart the icoDepart to set
-     */
-    public void setIcoDepart(ImageIcon icoDepart) {
-        this.icoDepart = icoDepart;
-    }
-
-    /**
-     * @return Image return the imgDepart
-     */
-    public Image getImgDepart() {
-        return imgDepart;
-    }
-
-    /**
-     * @param imgDepart the imgDepart to set
-     */
-    public void setImgDepart(Image imgDepart) {
-        this.imgDepart = imgDepart;
-    }
-
-    /**
-     * @return int return the xFonds1
-     */
-    public int getXFonds1() {
-        return xFonds1;
-    }
-
-    /**
-     * @param xFonds1 the xFonds1 to set
-     */
-    public void setXFonds1(int xFonds1) {
-        this.xFonds1 = xFonds1;
-    }
-
-    /**
-     * @return int return the xFonds2
-     */
-    public int getXFonds2() {
-        return xFonds2;
-    }
-
-    /**
-     * @param xFonds2 the xFonds2 to set
-     */
-    public void setXFonds2(int xFonds2) {
-        this.xFonds2 = xFonds2;
+        if (this.mario.isSaut()) {
+            g2.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(), null);
+        } else {
+            g2.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);
+        }
     }
 
     /**
@@ -249,6 +131,34 @@ public class Scene extends JPanel {
      */
     public void setXPos(int xPos) {
         this.xPos = xPos;
+    }
+
+    /**
+     * @return int return the ySol
+     */
+    public int getYSol() {
+        return ySol;
+    }
+
+    /**
+     * @return int return the hauteurPlafond
+     */
+    public int getHauteurPlafond() {
+        return hauteurPlafond;
+    }
+
+    /**
+     * @param xFonds1 the xFonds1 to set
+     */
+    public void setXFonds1(int xFonds1) {
+        this.xFonds1 = xFonds1;
+    }
+
+    /**
+     * @param xFonds2 the xFonds2 to set
+     */
+    public void setXFonds2(int xFonds2) {
+        this.xFonds2 = xFonds2;
     }
 
 }
