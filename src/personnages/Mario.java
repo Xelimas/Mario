@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 
 import jeu.MarioMain;
 import objets.Objet;
+import objets.Piece;
 
 public class Mario extends Personnage {
 
@@ -79,6 +80,15 @@ public class Mario extends Personnage {
             MarioMain.scene.setHauteurPlafond(objet.getY() + objet.getHauteur());
         } else if (super.contactDessus(objet) == false && this.saut == false) {
             MarioMain.scene.setHauteurPlafond(0);
+        }
+    }
+
+    public boolean contactPiece(Piece piece) {
+        if (this.contactArriere(piece) == true || this.contactAvant(piece) == true || this.contactDessous(piece) == true
+                || this.contactDessus(piece) == true) {
+            return true;
+        } else {
+            return false;
         }
     }
 
