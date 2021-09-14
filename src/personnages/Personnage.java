@@ -31,7 +31,7 @@ public class Personnage {
         ImageIcon ico;
         Image img;
 
-        if (this.marche == false || MarioMain.scene.getXPos() <= 0 || MarioMain.scene.getXPos() > 4430) {
+        if (this.marche == false) {
             if (this.versDroite == true) {
                 str = "/images/" + nom + "ArretDroite.png";
             } else {
@@ -60,6 +60,12 @@ public class Personnage {
         ico = new ImageIcon(getClass().getResource(str));
         img = ico.getImage();
         return img;
+    }
+
+    public void deplacement() {
+        if (MarioMain.scene.getXPos() >= 0) {
+            this.x = this.x - MarioMain.scene.getDx();
+        }
     }
 
     protected boolean contactAvant(Objet objet) {

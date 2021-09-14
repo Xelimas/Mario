@@ -7,6 +7,7 @@ import objets.Bloc;
 import objets.Objet;
 import objets.Piece;
 import objets.TuyauRouge;
+import personnages.Champ;
 import personnages.Mario;
 
 import java.awt.*;
@@ -31,6 +32,7 @@ public class Scene extends JPanel {
     private int hauteurPlafond;
 
     public Mario mario;
+    public Champ champ;
 
     public TuyauRouge tuyauRouge1;
     public TuyauRouge tuyauRouge2;
@@ -73,7 +75,6 @@ public class Scene extends JPanel {
     private ArrayList<Objet> tabObjets;
     private ArrayList<Piece> tabPieces;
 
-
     public Scene() {
 
         super();
@@ -93,6 +94,7 @@ public class Scene extends JPanel {
         this.imgDepart = this.icoDepart.getImage();
 
         mario = new Mario(300, 245);
+        champ = new Champ(800, 263);
         tuyauRouge1 = new TuyauRouge(600, 230);
         tuyauRouge2 = new TuyauRouge(1000, 230);
         tuyauRouge3 = new TuyauRouge(1600, 230);
@@ -204,16 +206,20 @@ public class Scene extends JPanel {
             if (this.mario.proche(this.tabObjets.get(i))) {
                 this.mario.contact(this.tabObjets.get(i));
             }
+
+            if (this.champ.proche(this.tabObjets.get(i))) {
+                this.champ.contact(this.tabObjets.get(i));
+            }
+
         }
 
         for (int i = 0; i < this.tabPieces.size(); i++) {
-            if(this.mario.proche(this.tabPieces.get(i))){
-                if(this.mario.contactPiece(this.tabPieces.get(i))) {
+            if (this.mario.proche(this.tabPieces.get(i))) {
+                if (this.mario.contactPiece(this.tabPieces.get(i))) {
                     this.tabPieces.remove(i);
                 }
             }
         }
-
 
         this.deplacementFond();
         if (this.xPos >= 0 && this.xPos <= 4430) {
@@ -223,6 +229,7 @@ public class Scene extends JPanel {
             for (int i = 0; i < this.tabPieces.size(); i++) {
                 this.tabPieces.get(i).deplacement();
             }
+            this.champ.deplacement();
         }
         g2.drawImage(this.imgFond1, this.xFonds1, 0, null);
         g2.drawImage(this.imgFond2, this.xFonds2, 0, null);
@@ -235,8 +242,8 @@ public class Scene extends JPanel {
         }
 
         for (int i = 0; i < this.tabPieces.size(); i++) {
-            g2.drawImage(this.tabPieces.get(i).bouge(), this.tabPieces.get(i).getX(),
-                    this.tabPieces.get(i).getY(), null);
+            g2.drawImage(this.tabPieces.get(i).bouge(), this.tabPieces.get(i).getX(), this.tabPieces.get(i).getY(),
+                    null);
         }
 
         g2.drawImage(imgDrapeau, 4650 - this.xPos, 115, null);
@@ -247,6 +254,8 @@ public class Scene extends JPanel {
         } else {
             g2.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);
         }
+
+        g2.drawImage(this.champ.marche("champ", 45), this.champ.getX(), this.champ.getY(), null);
     }
 
     /**

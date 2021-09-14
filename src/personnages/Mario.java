@@ -22,6 +22,45 @@ public class Mario extends Personnage {
         this.compteurSaut = 0;
     }
 
+    @Override
+    public Image marche(String nom, int frequence) {
+
+        String str;
+        ImageIcon ico;
+        Image img;
+
+        if (this.isMarche() == false || MarioMain.scene.getXPos() <= 0 || MarioMain.scene.getXPos() > 4430) {
+            if (this.isVersDroite() == true) {
+                str = "/images/" + nom + "ArretDroite.png";
+            } else {
+                str = "/images/" + nom + "ArretGauche.png";
+            }
+        } else {
+            this.compteur++;
+            if (this.compteur / frequence == 0) {
+                if (this.isVersDroite() == true) {
+                    str = "/images/" + nom + "ArretDroite.png";
+                } else {
+                    str = "/images/" + nom + "ArretGauche.png";
+                }
+            } else {
+                if (this.isVersDroite() == true) {
+                    str = "/images/" + nom + "MarcheDroite.png";
+                } else {
+                    str = "/images/" + nom + "MarcheGauche.png";
+                }
+
+            }
+            if (this.compteur == 2 * frequence) {
+                this.compteur = 0;
+            }
+        }
+        ico = new ImageIcon(getClass().getResource(str));
+        img = ico.getImage();
+        return img;
+    }
+
+    
     public Image saute() {
         ImageIcon ico;
         Image img;
