@@ -84,20 +84,23 @@ public class Scene extends JPanel {
         super.paintComponent(g);
         Graphics g2 = (Graphics2D) g;
 
-        if (this.mario.contactAvant(tuyauRouge1) == true) {
-            this.mario.setMarche(false);
-            this.dx = 0;
+        if (this.mario.proche(this.bloc1)) {
+            this.mario.contact(bloc1);
+        }
+        if (this.mario.proche(this.tuyauRouge1)) {
+            this.mario.contact(tuyauRouge1);
         }
 
         this.deplacementFond();
         this.tuyauRouge1.deplacement();
+        this.bloc1.deplacement();
 
         g2.drawImage(this.imgFond1, this.xFonds1, 0, null);
         g2.drawImage(this.imgFond2, this.xFonds2, 0, null);
         g2.drawImage(imgChateau1, 10 - this.xPos, 95, null);
         g2.drawImage(imgDepart, 220 - this.xPos, 234, null);
         g2.drawImage(this.tuyauRouge1.getImgTuyauRouge(), this.tuyauRouge1.getX(), this.tuyauRouge1.getY(), null);
-        g2.drawImage(this.bloc1.getImgBloc(), this.bloc1.getX() - this.xPos, this.bloc1.getY(), null);
+        g2.drawImage(this.bloc1.getImgBloc(), this.bloc1.getX(), this.bloc1.getY(), null);
         if (this.mario.isSaut()) {
             g2.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(), null);
         } else {
@@ -143,7 +146,7 @@ public class Scene extends JPanel {
     /**
      * @return int return the hauteurPlafond
      */
-    public int getHauteurPlafond() {
+    public int getHautPlafond() {
         return hauteurPlafond;
     }
 
@@ -159,6 +162,139 @@ public class Scene extends JPanel {
      */
     public void setXFonds2(int xFonds2) {
         this.xFonds2 = xFonds2;
+    }
+
+    /**
+     * @return ImageIcon return the icoFond
+     */
+    public ImageIcon getIcoFond() {
+        return icoFond;
+    }
+
+    /**
+     * @param icoFond the icoFond to set
+     */
+    public void setIcoFond(ImageIcon icoFond) {
+        this.icoFond = icoFond;
+    }
+
+    /**
+     * @return Image return the imgFond1
+     */
+    public Image getImgFond1() {
+        return imgFond1;
+    }
+
+    /**
+     * @param imgFond1 the imgFond1 to set
+     */
+    public void setImgFond1(Image imgFond1) {
+        this.imgFond1 = imgFond1;
+    }
+
+    /**
+     * @return Image return the imgFond2
+     */
+    public Image getImgFond2() {
+        return imgFond2;
+    }
+
+    /**
+     * @param imgFond2 the imgFond2 to set
+     */
+    public void setImgFond2(Image imgFond2) {
+        this.imgFond2 = imgFond2;
+    }
+
+    /**
+     * @return ImageIcon return the icoChateau1
+     */
+    public ImageIcon getIcoChateau1() {
+        return icoChateau1;
+    }
+
+    /**
+     * @param icoChateau1 the icoChateau1 to set
+     */
+    public void setIcoChateau1(ImageIcon icoChateau1) {
+        this.icoChateau1 = icoChateau1;
+    }
+
+    /**
+     * @return Image return the imgChateau1
+     */
+    public Image getImgChateau1() {
+        return imgChateau1;
+    }
+
+    /**
+     * @param imgChateau1 the imgChateau1 to set
+     */
+    public void setImgChateau1(Image imgChateau1) {
+        this.imgChateau1 = imgChateau1;
+    }
+
+    /**
+     * @return ImageIcon return the icoDepart
+     */
+    public ImageIcon getIcoDepart() {
+        return icoDepart;
+    }
+
+    /**
+     * @param icoDepart the icoDepart to set
+     */
+    public void setIcoDepart(ImageIcon icoDepart) {
+        this.icoDepart = icoDepart;
+    }
+
+    /**
+     * @return Image return the imgDepart
+     */
+    public Image getImgDepart() {
+        return imgDepart;
+    }
+
+    /**
+     * @param imgDepart the imgDepart to set
+     */
+    public void setImgDepart(Image imgDepart) {
+        this.imgDepart = imgDepart;
+    }
+
+    /**
+     * @return int return the xFonds1
+     */
+    public int getXFonds1() {
+        return xFonds1;
+    }
+
+    /**
+     * @return int return the xFonds2
+     */
+    public int getXFonds2() {
+        return xFonds2;
+    }
+
+    /**
+     * @param ySol the ySol to set
+     */
+    public void setYSol(int ySol) {
+        this.ySol = ySol;
+    }
+
+    /**
+     * @return int return the hauteurPlafond
+     */
+    public int getHauteurPlafond() {
+        return hauteurPlafond;
+    }
+
+    /**
+     * @param hauteurPlafond the hauteurPlafond to set
+     */
+    public void setHauteurPlafond(int hauteurPlafond) {
+        this.hauteurPlafond = hauteurPlafond;
     }
 
 }

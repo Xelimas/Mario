@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.ImageIcon;
 
 import jeu.MarioMain;
+import objets.Objet;
 
 public class Mario extends Personnage {
 
@@ -28,7 +29,7 @@ public class Mario extends Personnage {
         this.compteurSaut++;
 
         if (this.compteurSaut <= 35) {
-            if (this.getY() > MarioMain.scene.getHauteurPlafond()) {
+            if (this.getY() > MarioMain.scene.getHautPlafond()) {
                 this.setY(this.getY() - 4);
             } else {
                 this.compteurSaut = 36;
@@ -36,14 +37,15 @@ public class Mario extends Personnage {
             if (this.isVersDroite() == true) {
                 str = "/images/marioSautDroite.png";
             } else {
-                str = "/images/mariosautGauche.png";
+                str = "/images/marioSautGauche.png";
             }
+
         } else if (this.getY() + this.getHauteur() < MarioMain.scene.getYSol()) {
             this.setY(this.getY() + 1);
             if (this.isVersDroite() == true) {
-                str = "/images/marioArretDroite.png";
+                str = "/images/marioSautDroite.png";
             } else {
-                str = "/images/marioArretGauche";
+                str = "/images/marioSautGauche.png";
             }
         } else {
             if (this.isVersDroite() == true) {
@@ -57,6 +59,27 @@ public class Mario extends Personnage {
         ico = new ImageIcon(getClass().getResource(str));
         img = ico.getImage();
         return img;
+    }
+
+    public void contact(Objet objet) {
+        if ((super.contactAvant(objet) == true && this.isVersDroite() == true)
+                || (super.contactArriere(objet) == true && this.isVersDroite() == false)) {
+            MarioMain.scene.setDx(0);
+            this.setMarche(false);
+        }
+        if (super.contactDessous(objet) == true && this.saut == true) {
+            MarioMain.scene.setYSol(objet.getY());
+        } else if (super.contactDessous(objet) == false) {
+            MarioMain.scene.setYSol(293);
+            if (this.saut == false) {
+                this.setY(243);
+            }
+        }
+        if (super.contactDessus(objet) == true) {
+            MarioMain.scene.setHauteurPlafond(objet.getY() + objet.getHauteur());
+        } else if (super.contactDessus(objet) == false && this.saut == false) {
+            MarioMain.scene.setHauteurPlafond(0);
+        }
     }
 
     /**
