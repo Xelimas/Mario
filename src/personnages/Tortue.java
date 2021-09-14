@@ -36,25 +36,36 @@ public class Tortue extends Personnage implements Runnable {
         super.setX(super.getX() + this.dxTortue);
     }
 
-
     public void contact(Objet objet) {
-        if(super.contactAvant(objet) == true && this.isVersDroite() == true) {
+        if (super.contactAvant(objet) == true && this.isVersDroite() == true) {
             super.setVersDroite(false);
             this.dxTortue = -1;
-        }else if(super.contactArriere(objet) == true && this.isVersDroite() == false) {
+        } else if (super.contactArriere(objet) == true && this.isVersDroite() == false) {
             super.setVersDroite(true);
             this.dxTortue = 1;
         }
     }
 
     public void contact(Personnage personnage) {
-        if(super.contactAvant(personnage) == true && this.isVersDroite() == true) {
+        if (super.contactAvant(personnage) == true && this.isVersDroite() == true) {
             super.setVersDroite(false);
             this.dxTortue = -1;
-        }else if(super.contactArriere(personnage) == true && this.isVersDroite() == false) {
+        } else if (super.contactArriere(personnage) == true && this.isVersDroite() == false) {
             super.setVersDroite(true);
             this.dxTortue = 1;
         }
+    }
+
+    public Image meurt() {
+        String str;
+        ImageIcon ico;
+        Image img;
+
+        str = "/images/tortueFermee.png";
+
+        ico = new ImageIcon(getClass().getResource(str));
+        img = ico.getImage();
+        return img;
     }
 
     @Override
@@ -62,15 +73,17 @@ public class Tortue extends Personnage implements Runnable {
         try {
             Thread.sleep(20);
         } catch (InterruptedException e) {
-            
+
         }
         while (true) {
-            this.bouge();
+            if (this.isVivant() == true) {
+                this.bouge();
 
-            try {
-                Thread.sleep(PAUSE);
-            } catch (InterruptedException e) {}
-            
+                try {
+                    Thread.sleep(PAUSE);
+                } catch (InterruptedException e) {
+                }
+            }
         }
     }
 

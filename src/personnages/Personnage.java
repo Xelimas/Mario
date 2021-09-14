@@ -13,6 +13,7 @@ public class Personnage {
     private boolean marche;
     private boolean versDroite;
     public int compteur;
+    protected boolean vivant;
 
     public Personnage(int x, int y, int largeur, int hauteur) {
         this.x = x;
@@ -22,6 +23,7 @@ public class Personnage {
         this.compteur = 0;
         this.marche = false;
         this.versDroite = true;
+        this.vivant = true;
 
     }
 
@@ -150,6 +152,15 @@ public class Personnage {
 
     }
 
+    protected boolean contactDessous(Personnage personnage) {
+        if (this.x + this.largeur < personnage.getX() || this.x > personnage.getX() + personnage.getLargeur()
+                || this.y + this.hauteur < personnage.getY() || this.y + this.hauteur > personnage.getY()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public boolean proche(Personnage personnage) {
         if ((this.x > personnage.getX() - 10 && this.x < personnage.getX() + personnage.getLargeur() + 10)
                 || (this.x + this.largeur > personnage.getX() - 10
@@ -228,6 +239,20 @@ public class Personnage {
      */
     public void setVersDroite(boolean versDroite) {
         this.versDroite = versDroite;
+    }
+
+    /**
+     * @return boolean return the versDroite
+     */
+    public boolean isVivant() {
+        return vivant;
+    }
+
+    /**
+     * @param versDroite the versDroite to set
+     */
+    public void setVivant(boolean vivant) {
+        this.vivant = vivant;
     }
 
 }

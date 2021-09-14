@@ -235,6 +235,12 @@ public class Scene extends JPanel {
         if (this.tortue.proche(champ)) {
             this.tortue.contact(champ);
         }
+        if (this.mario.proche(champ) && this.champ.isVivant() == true) {
+            this.mario.contact(champ);
+        }
+        if (this.mario.proche(tortue) && this.tortue.isVivant() == true) {
+            this.mario.contact(tortue);
+        }
 
         this.deplacementFond();
         if (this.xPos >= 0 && this.xPos <= 4430) {
@@ -271,8 +277,18 @@ public class Scene extends JPanel {
             g2.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);
         }
 
-        g2.drawImage(this.champ.marche("champ", 45), this.champ.getX(), this.champ.getY(), null);
-        g2.drawImage(this.tortue.marche("tortue", 45), this.tortue.getX(), this.tortue.getY(), null);
+        if (this.champ.isVivant() == true) {
+            g2.drawImage(this.champ.marche("champ", 45), this.champ.getX(), this.champ.getY(), null);
+        } else {
+            g2.drawImage(this.champ.meurt(), this.champ.getX(), this.champ.getY() + 20, null);
+        }
+
+        if (this.tortue.isVivant() == true) {
+            g2.drawImage(this.tortue.marche("tortue", 45), this.tortue.getX(), this.tortue.getY(), null);
+        } else {
+            g2.drawImage(this.tortue.meurt(), this.tortue.getX(), this.tortue.getY() + 30, null);
+        }
+        
     }
 
     /**
