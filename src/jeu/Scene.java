@@ -9,6 +9,7 @@ import objets.Piece;
 import objets.TuyauRouge;
 import personnages.Champ;
 import personnages.Mario;
+import personnages.Tortue;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class Scene extends JPanel {
 
     public Mario mario;
     public Champ champ;
+    public Tortue tortue;
 
     public TuyauRouge tuyauRouge1;
     public TuyauRouge tuyauRouge2;
@@ -95,6 +97,8 @@ public class Scene extends JPanel {
 
         mario = new Mario(300, 245);
         champ = new Champ(800, 263);
+        tortue = new Tortue(950, 243);
+
         tuyauRouge1 = new TuyauRouge(600, 230);
         tuyauRouge2 = new TuyauRouge(1000, 230);
         tuyauRouge3 = new TuyauRouge(1600, 230);
@@ -211,6 +215,10 @@ public class Scene extends JPanel {
                 this.champ.contact(this.tabObjets.get(i));
             }
 
+            if (this.tortue.proche(this.tabObjets.get(i))) {
+                this.tortue.contact(this.tabObjets.get(i));
+            }
+
         }
 
         for (int i = 0; i < this.tabPieces.size(); i++) {
@@ -219,6 +227,13 @@ public class Scene extends JPanel {
                     this.tabPieces.remove(i);
                 }
             }
+        }
+
+        if (this.champ.proche(tortue)) {
+            this.champ.contact(tortue);
+        }
+        if (this.tortue.proche(champ)) {
+            this.tortue.contact(champ);
         }
 
         this.deplacementFond();
@@ -230,6 +245,7 @@ public class Scene extends JPanel {
                 this.tabPieces.get(i).deplacement();
             }
             this.champ.deplacement();
+            this.tortue.deplacement();
         }
         g2.drawImage(this.imgFond1, this.xFonds1, 0, null);
         g2.drawImage(this.imgFond2, this.xFonds2, 0, null);
@@ -256,6 +272,7 @@ public class Scene extends JPanel {
         }
 
         g2.drawImage(this.champ.marche("champ", 45), this.champ.getX(), this.champ.getY(), null);
+        g2.drawImage(this.tortue.marche("tortue", 45), this.tortue.getX(), this.tortue.getY(), null);
     }
 
     /**
