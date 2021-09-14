@@ -4,10 +4,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import objets.Bloc;
+import objets.Objet;
 import objets.TuyauRouge;
 import personnages.Mario;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Scene extends JPanel {
 
@@ -28,8 +30,35 @@ public class Scene extends JPanel {
     private int hauteurPlafond;
 
     public Mario mario;
+
     public TuyauRouge tuyauRouge1;
+    public TuyauRouge tuyauRouge2;
+    public TuyauRouge tuyauRouge3;
+    public TuyauRouge tuyauRouge4;
+    public TuyauRouge tuyauRouge5;
+    public TuyauRouge tuyauRouge6;
+    public TuyauRouge tuyauRouge7;
+    public TuyauRouge tuyauRouge8;
+
     public Bloc bloc1;
+    public Bloc bloc2;
+    public Bloc bloc3;
+    public Bloc bloc4;
+    public Bloc bloc5;
+    public Bloc bloc6;
+    public Bloc bloc7;
+    public Bloc bloc8;
+    public Bloc bloc9;
+    public Bloc bloc10;
+    public Bloc bloc11;
+    public Bloc bloc12;
+
+    private ImageIcon icoDrapeau;
+    private Image imgDrapeau;
+    private ImageIcon icoChateauFin;
+    private Image imgChateauFin;
+
+    private ArrayList<Objet> tabObjets;
 
     public Scene() {
 
@@ -51,7 +80,56 @@ public class Scene extends JPanel {
 
         mario = new Mario(300, 245);
         tuyauRouge1 = new TuyauRouge(600, 230);
+        tuyauRouge2 = new TuyauRouge(1000, 230);
+        tuyauRouge3 = new TuyauRouge(1600, 230);
+        tuyauRouge4 = new TuyauRouge(1900, 230);
+        tuyauRouge5 = new TuyauRouge(2500, 230);
+        tuyauRouge6 = new TuyauRouge(3000, 230);
+        tuyauRouge7 = new TuyauRouge(3800, 230);
+        tuyauRouge8 = new TuyauRouge(4500, 230);
+
         bloc1 = new Bloc(400, 180);
+        bloc2 = new Bloc(1200, 180);
+        bloc3 = new Bloc(1270, 170);
+        bloc4 = new Bloc(1340, 160);
+        bloc5 = new Bloc(2000, 180);
+        bloc6 = new Bloc(2600, 160);
+        bloc7 = new Bloc(2650, 180);
+        bloc8 = new Bloc(3500, 160);
+        bloc9 = new Bloc(3550, 140);
+        bloc10 = new Bloc(4000, 170);
+        bloc11 = new Bloc(4200, 200);
+        bloc12 = new Bloc(4300, 210);
+
+        this.icoChateauFin = new ImageIcon(getClass().getResource("/images/chateauFin.png"));
+        this.imgChateauFin = this.icoChateauFin.getImage();
+
+        this.icoDrapeau = new ImageIcon(getClass().getResource("/images/drapeau.png"));
+        this.imgDrapeau = this.icoDrapeau.getImage();
+
+        tabObjets = new ArrayList<Objet>();
+
+        this.tabObjets.add(this.tuyauRouge1);
+        this.tabObjets.add(this.tuyauRouge2);
+        this.tabObjets.add(this.tuyauRouge3);
+        this.tabObjets.add(this.tuyauRouge4);
+        this.tabObjets.add(this.tuyauRouge5);
+        this.tabObjets.add(this.tuyauRouge6);
+        this.tabObjets.add(this.tuyauRouge7);
+        this.tabObjets.add(this.tuyauRouge8);
+
+        this.tabObjets.add(this.bloc1);
+        this.tabObjets.add(this.bloc2);
+        this.tabObjets.add(this.bloc3);
+        this.tabObjets.add(this.bloc4);
+        this.tabObjets.add(this.bloc5);
+        this.tabObjets.add(this.bloc6);
+        this.tabObjets.add(this.bloc7);
+        this.tabObjets.add(this.bloc8);
+        this.tabObjets.add(this.bloc9);
+        this.tabObjets.add(this.bloc10);
+        this.tabObjets.add(this.bloc11);
+        this.tabObjets.add(this.bloc12);
 
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -63,7 +141,7 @@ public class Scene extends JPanel {
 
     public void deplacementFond() {
 
-        if (this.xPos >= 0) {
+        if (this.xPos >= 0 && this.xPos <= 4430) {
             this.xPos = this.xPos + this.dx;
             this.xFonds1 = this.xFonds1 - this.dx;
             this.xFonds2 = this.xFonds2 - this.dx;
@@ -84,23 +162,31 @@ public class Scene extends JPanel {
         super.paintComponent(g);
         Graphics g2 = (Graphics2D) g;
 
-        if (this.mario.proche(this.bloc1)) {
-            this.mario.contact(bloc1);
-        }
-        if (this.mario.proche(this.tuyauRouge1)) {
-            this.mario.contact(tuyauRouge1);
+        for (int i = 0; i < this.tabObjets.size(); i++) {
+            if (this.mario.proche(this.tabObjets.get(i))) {
+                this.mario.contact(this.tabObjets.get(i));
+            }
         }
 
         this.deplacementFond();
-        this.tuyauRouge1.deplacement();
-        this.bloc1.deplacement();
-
+        if (this.xPos >= 0 && this.xPos <= 4430) {
+            for (int i = 0; i < this.tabObjets.size(); i++) {
+                this.tabObjets.get(i).deplacement();
+            }
+        }
         g2.drawImage(this.imgFond1, this.xFonds1, 0, null);
         g2.drawImage(this.imgFond2, this.xFonds2, 0, null);
         g2.drawImage(imgChateau1, 10 - this.xPos, 95, null);
         g2.drawImage(imgDepart, 220 - this.xPos, 234, null);
-        g2.drawImage(this.tuyauRouge1.getImgTuyauRouge(), this.tuyauRouge1.getX(), this.tuyauRouge1.getY(), null);
-        g2.drawImage(this.bloc1.getImgBloc(), this.bloc1.getX(), this.bloc1.getY(), null);
+
+        for (int i = 0; i < this.tabObjets.size(); i++) {
+            g2.drawImage(this.tabObjets.get(i).getImgObjet(), this.tabObjets.get(i).getX(),
+                    this.tabObjets.get(i).getY(), null);
+        }
+
+        g2.drawImage(imgDrapeau, 4650 - this.xPos, 115, null);
+        g2.drawImage(imgChateauFin, 5000 - this.xPos, 145, null);
+
         if (this.mario.isSaut()) {
             g2.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(), null);
         } else {

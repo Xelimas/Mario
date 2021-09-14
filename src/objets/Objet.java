@@ -9,22 +9,23 @@ public class Objet {
 
     private int largeur, hauteur;
     private int x, y;
-    
+
+    protected Image imgObjet;
+    protected ImageIcon icoObjet;
 
     public Objet(int x, int y, int largeur, int hauteur) {
         this.x = x;
         this.y = y;
         this.largeur = largeur;
         this.hauteur = hauteur;
-        
+
     }
 
     public void deplacement() {
-        if(MarioMain.scene.getXPos() >= 0) {
+        if (MarioMain.scene.getXPos() >= 0) {
             this.x = this.x - MarioMain.scene.getDx();
         }
     }
-
 
     /**
      * @return int return the largeur
@@ -80,6 +81,13 @@ public class Objet {
      */
     public void setY(int y) {
         this.y = y;
+    }
+
+    /**
+     * @return Image return the imgObjet
+     */
+    public Image getImgObjet() {
+        return imgObjet;
     }
 
 }

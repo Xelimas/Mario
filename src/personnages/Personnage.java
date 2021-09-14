@@ -31,7 +31,7 @@ public class Personnage {
         ImageIcon ico;
         Image img;
 
-        if (this.marche == false || MarioMain.scene.getXPos() <= 0) {
+        if (this.marche == false || MarioMain.scene.getXPos() <= 0 || MarioMain.scene.getXPos() > 4430) {
             if (this.versDroite == true) {
                 str = "/images/" + nom + "ArretDroite.png";
             } else {

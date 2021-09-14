@@ -17,6 +17,11 @@ public class Clavier implements KeyListener {
             MarioMain.scene.mario.setVersDroite(true);
             MarioMain.scene.setDx(1);
         } else if (e.getKeyCode() == 81) { // touche Q (gauche)
+            if (MarioMain.scene.getXPos() == 4431) {
+                MarioMain.scene.setXPos(4430);
+                MarioMain.scene.setXFonds1(-50);
+                MarioMain.scene.setXFonds2(750);
+            }
             MarioMain.scene.mario.setMarche(true);
             MarioMain.scene.mario.setVersDroite(false);
             MarioMain.scene.setDx(-1);
