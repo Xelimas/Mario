@@ -3,6 +3,7 @@ package personnages;
 import java.awt.*;
 import javax.swing.ImageIcon;
 
+import audio.Audio;
 import jeu.MarioMain;
 import objets.Objet;
 import objets.Piece;
@@ -13,6 +14,7 @@ public class Mario extends Personnage {
     private ImageIcon icoMario;
     private boolean saut;
     private int compteurSaut; // durée et hauteur du saut
+    private int compteurMort;
 
     public Mario(int x, int y) {
         super(x, y, 28, 50);
@@ -20,6 +22,7 @@ public class Mario extends Personnage {
         this.imgMario = this.icoMario.getImage();
         this.saut = false;
         this.compteurSaut = 0;
+        this.compteurMort = 0;
     }
 
     @Override
@@ -132,14 +135,36 @@ public class Mario extends Personnage {
 
     public void contact(Personnage personnage) {
         if ((super.contactAvant(personnage) == true) || (super.contactArriere(personnage) == true)) {
-            if (this.isVivant() == false) {
+            
                 this.setMarche(false);
                 this.setVivant(false);
-            }
+            
         } else if (super.contactDessous(personnage) == true) {
             personnage.setMarche(false);
             personnage.setVivant(false);
         }
+    }
+
+    public Image meurt() {
+        String str;
+        ImageIcon ico;
+        Image img;
+
+        str = "/images/boom.png";
+        if (this.compteurMort == 0) {
+            Audio.playSound("/audio/boum.wav");
+        }
+        if (this.compteurMort == 100) {
+            Audio.playSound("/audio/partiePerdue.wav");
+        }
+        this.compteurMort++;
+        if (this.compteurMort > 100) {
+            str = "/images/marioMeurt.png";
+            this.setY(this.getY() - 1);
+        }
+        ico = new ImageIcon(getClass().getResource(str));
+        img = ico.getImage();
+        return img;
     }
 
     /**

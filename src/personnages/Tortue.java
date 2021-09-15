@@ -62,6 +62,7 @@ public class Tortue extends Personnage implements Runnable {
         Image img;
 
         str = "/images/tortueFermee.png";
+       
 
         ico = new ImageIcon(getClass().getResource(str));
         img = ico.getImage();

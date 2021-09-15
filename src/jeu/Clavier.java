@@ -2,6 +2,8 @@ package jeu;
 
 import java.awt.event.*;
 
+import audio.Audio;
+
 public class Clavier implements KeyListener {
 
     @Override
@@ -29,6 +31,7 @@ public class Clavier implements KeyListener {
             }
             if (e.getKeyCode() == 90) { // touche Z (saut)
                 MarioMain.scene.mario.setSaut(true);
+                Audio.playSound("/audio/saut.wav");
             }
         }
     }

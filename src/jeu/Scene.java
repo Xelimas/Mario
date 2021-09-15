@@ -3,8 +3,9 @@ package jeu;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import affichage.CompteARebours;
 import affichage.Score;
-
+import audio.Audio;
 import objets.Bloc;
 import objets.Objet;
 import objets.Piece;
@@ -26,15 +27,19 @@ public class Scene extends JPanel {
     private Image imgChateau1;
     private ImageIcon icoDepart;
     private Image imgDepart;
+    private ImageIcon icoDrapeau;
+    private Image imgDrapeau;
+    private ImageIcon icoChateauFin;
+    private Image imgChateauFin;
 
     private int xFonds1;
     private int xFonds2;
+
     private int dx;
     private int xPos;
     private int ySol;
     private int hauteurPlafond;
-
-    public Mario mario;
+    private boolean ok;
 
     public TuyauRouge tuyauRouge1;
     public TuyauRouge tuyauRouge2;
@@ -88,10 +93,7 @@ public class Scene extends JPanel {
     public Tortue tortue8;
     public Tortue tortue9;
 
-    private ImageIcon icoDrapeau;
-    private Image imgDrapeau;
-    private ImageIcon icoChateauFin;
-    private Image imgChateauFin;
+    public Mario mario;
 
     private ArrayList<Objet> tabObjets;
     private ArrayList<Piece> tabPieces;
@@ -101,6 +103,7 @@ public class Scene extends JPanel {
 
     private Score score;
     private Font police;
+    private CompteARebours compteARebours;
 
     public Scene() {
 
@@ -111,6 +114,7 @@ public class Scene extends JPanel {
         this.xPos = -1;
         this.ySol = 293;
         this.hauteurPlafond = 0;
+        this.ok = true;
         icoFond = new ImageIcon(getClass().getResource("/images/fondEcran.png"));
         this.imgFond1 = this.icoFond.getImage();
         this.imgFond2 = this.icoFond.getImage();
@@ -119,8 +123,6 @@ public class Scene extends JPanel {
         this.imgChateau1 = this.icoChateau1.getImage();
         this.icoDepart = new ImageIcon(getClass().getResource("/images/depart.png"));
         this.imgDepart = this.icoDepart.getImage();
-
-        mario = new Mario(300, 245);
 
         tuyauRouge1 = new TuyauRouge(600, 230);
         tuyauRouge2 = new TuyauRouge(1000, 230);
@@ -155,7 +157,7 @@ public class Scene extends JPanel {
         piece9 = new Piece(4200, 145);
         piece10 = new Piece(4600, 40);
 
-        champ1 = new Champ(700, 263);
+        champ1 = new Champ(800, 263);
         champ2 = new Champ(1100, 263);
         champ3 = new Champ(2100, 263);
         champ4 = new Champ(2400, 263);
@@ -164,7 +166,7 @@ public class Scene extends JPanel {
         champ7 = new Champ(3700, 263);
         champ8 = new Champ(4500, 263);
 
-        tortue1 = new Tortue(800, 243);
+        tortue1 = new Tortue(950, 243);
         tortue2 = new Tortue(1500, 243);
         tortue3 = new Tortue(1800, 243);
         tortue4 = new Tortue(2400, 243);
@@ -173,6 +175,8 @@ public class Scene extends JPanel {
         tortue7 = new Tortue(3900, 243);
         tortue8 = new Tortue(4200, 243);
         tortue9 = new Tortue(4400, 243);
+
+        mario = new Mario(300, 245);
 
         this.icoChateauFin = new ImageIcon(getClass().getResource("/images/chateauFin.png"));
         this.imgChateauFin = this.icoChateauFin.getImage();
@@ -218,7 +222,6 @@ public class Scene extends JPanel {
         this.tabPieces.add(this.piece10);
 
         tabChamps = new ArrayList<Champ>();
-
         this.tabChamps.add(this.champ1);
         this.tabChamps.add(this.champ2);
         this.tabChamps.add(this.champ3);
@@ -246,6 +249,7 @@ public class Scene extends JPanel {
 
         score = new Score();
         police = new Font("Arial", Font.PLAIN, 18);
+        compteARebours = new CompteARebours();
 
         Thread chronoEcran = new Thread(new Chrono());
         chronoEcran.start();
@@ -267,6 +271,37 @@ public class Scene extends JPanel {
             this.xFonds1 = -800;
         } else if (this.xFonds2 == 800) {
             this.xFonds2 = -800;
+        }
+    }
+
+    private boolean partieGagnee() {
+        if (this.compteARebours.getCompteurTemps() > 0 && this.mario.isVivant() == true
+                && this.score.getNbrePiece() == 10 && this.xPos > 4400) {
+            if (this.ok == true) {
+
+                Audio.playSound("/audio/partieGagnee.wav");
+                this.ok = false;
+
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean partiePerdue() {
+        if (this.mario.isVivant() == false || this.compteARebours.getCompteurTemps() <= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean finDePartie() {
+        if (this.partieGagnee() == true || this.partiePerdue() == true) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -294,6 +329,7 @@ public class Scene extends JPanel {
         for (int i = 0; i < this.tabPieces.size(); i++) {
             if (this.mario.proche(this.tabPieces.get(i))) {
                 if (this.mario.contactPiece(this.tabPieces.get(i))) {
+                    Audio.playSound("/audio/piece.wav");
                     this.tabPieces.remove(i);
                     this.score.setNbrePieces(this.score.getNbrePiece() + 1);
                 }
@@ -301,8 +337,9 @@ public class Scene extends JPanel {
         }
 
         for (int i = 0; i < this.tabChamps.size(); i++) {
+
             for (int j = 0; j < this.tabChamps.size(); j++) {
-                if (j != 1) {
+                if (j != i) {
                     if (this.tabChamps.get(j).proche(this.tabChamps.get(i))) {
                         this.tabChamps.get(j).contact(this.tabChamps.get(i));
                     }
@@ -316,13 +353,14 @@ public class Scene extends JPanel {
         }
 
         for (int i = 0; i < this.tabTortues.size(); i++) {
+
             for (int j = 0; j < this.tabChamps.size(); j++) {
                 if (this.tabChamps.get(j).proche(this.tabTortues.get(i))) {
                     this.tabChamps.get(j).contact(this.tabTortues.get(i));
                 }
             }
-            for (int j = 0; j < this.tabTortues.size(); j++) {
-                if (j != 1) {
+            for (int j = 1; j < this.tabTortues.size(); j++) {
+                if (j != i) {
                     if (this.tabTortues.get(j).proche(this.tabTortues.get(i))) {
                         this.tabTortues.get(j).contact(this.tabTortues.get(i));
                     }
@@ -333,11 +371,17 @@ public class Scene extends JPanel {
         for (int i = 0; i < this.tabChamps.size(); i++) {
             if (this.mario.proche(this.tabChamps.get(i)) && this.tabChamps.get(i).isVivant() == true) {
                 this.mario.contact(this.tabChamps.get(i));
+                if (this.tabChamps.get(i).isVivant() == false) {
+                    Audio.playSound("/audio/ecrasePersonnage.wav");
+                }
             }
         }
         for (int i = 0; i < this.tabTortues.size(); i++) {
             if (this.mario.proche(this.tabTortues.get(i)) && this.tabTortues.get(i).isVivant() == true) {
                 this.mario.contact(this.tabTortues.get(i));
+                if (this.tabTortues.get(i).isVivant() == false) {
+                    Audio.playSound("/audio/ecrasePersonnage.wav");
+                }
             }
         }
 
@@ -374,11 +418,14 @@ public class Scene extends JPanel {
 
         g2.drawImage(imgDrapeau, 4650 - this.xPos, 115, null);
         g2.drawImage(imgChateauFin, 5000 - this.xPos, 145, null);
-
-        if (this.mario.isSaut()) {
-            g2.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(), null);
+        if (this.mario.isVivant() == true) {
+            if (this.mario.isSaut()) {
+                g2.drawImage(this.mario.saute(), this.mario.getX(), this.mario.getY(), null);
+            } else {
+                g2.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);
+            }
         } else {
-            g2.drawImage(this.mario.marche("mario", 25), this.mario.getX(), this.mario.getY(), null);
+            g2.drawImage(this.mario.meurt(), this.mario.getX(), this.mario.getY(), null);
         }
 
         for (int i = 0; i < this.tabChamps.size(); i++) {
@@ -398,11 +445,23 @@ public class Scene extends JPanel {
             } else {
                 g2.drawImage(this.tabTortues.get(i).meurt(), this.tabTortues.get(i).getX(),
                         this.tabTortues.get(i).getY() + 30, null);
+
             }
         }
 
         g2.setFont(police);
         g2.drawString(this.score.getNbrePiece() + " pièces trouvées sur " + this.score.getNBRE_TOTAL_PIECES(), 460, 25);
+        g2.drawString(this.compteARebours.getStr(), 5, 25);
+
+        if (this.finDePartie() == true) {
+            Font policeFin = new Font("Arial", Font.BOLD, 50);
+            g2.setFont(policeFin);
+            if (this.partieGagnee() == true) {
+                g2.drawString("Vous avez gagné !! ", 120, 180);
+            } else {
+                g2.drawString("Vous avez perdu .... ", 120, 180);
+            }
+        }
 
     }
 
