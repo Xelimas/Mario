@@ -3,6 +3,8 @@ package jeu;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import affichage.Score;
+
 import objets.Bloc;
 import objets.Objet;
 import objets.Piece;
@@ -97,6 +99,9 @@ public class Scene extends JPanel {
     private ArrayList<Champ> tabChamps;
     private ArrayList<Tortue> tabTortues;
 
+    private Score score;
+    private Font police;
+
     public Scene() {
 
         super();
@@ -150,7 +155,7 @@ public class Scene extends JPanel {
         piece9 = new Piece(4200, 145);
         piece10 = new Piece(4600, 40);
 
-        champ1 = new Champ(800, 263);
+        champ1 = new Champ(700, 263);
         champ2 = new Champ(1100, 263);
         champ3 = new Champ(2100, 263);
         champ4 = new Champ(2400, 263);
@@ -159,7 +164,7 @@ public class Scene extends JPanel {
         champ7 = new Champ(3700, 263);
         champ8 = new Champ(4500, 263);
 
-        tortue1 = new Tortue(950, 243);
+        tortue1 = new Tortue(800, 243);
         tortue2 = new Tortue(1500, 243);
         tortue3 = new Tortue(1800, 243);
         tortue4 = new Tortue(2400, 243);
@@ -239,6 +244,9 @@ public class Scene extends JPanel {
         this.requestFocusInWindow();
         this.addKeyListener(new Clavier());
 
+        score = new Score();
+        police = new Font("Arial", Font.PLAIN, 18);
+
         Thread chronoEcran = new Thread(new Chrono());
         chronoEcran.start();
     }
@@ -287,6 +295,7 @@ public class Scene extends JPanel {
             if (this.mario.proche(this.tabPieces.get(i))) {
                 if (this.mario.contactPiece(this.tabPieces.get(i))) {
                     this.tabPieces.remove(i);
+                    this.score.setNbrePieces(this.score.getNbrePiece() + 1);
                 }
             }
         }
@@ -331,7 +340,6 @@ public class Scene extends JPanel {
                 this.mario.contact(this.tabTortues.get(i));
             }
         }
-        
 
         this.deplacementFond();
         if (this.xPos >= 0 && this.xPos <= 4430) {
@@ -392,6 +400,9 @@ public class Scene extends JPanel {
                         this.tabTortues.get(i).getY() + 30, null);
             }
         }
+
+        g2.setFont(police);
+        g2.drawString(this.score.getNbrePiece() + " pièces trouvées sur " + this.score.getNBRE_TOTAL_PIECES(), 460, 25);
 
     }
 
